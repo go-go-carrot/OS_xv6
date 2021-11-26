@@ -29,11 +29,16 @@ nvim Makefile
 make qemu
 
 # Submit the project to this repo for review.
-# WARNING: `git add .` basically adds every file in your directory. This will probably add files that the grader is not interested in (e.g., object files). You should run `make clean` to remove all compilation artifacts and check `git status` to identify only the source code files that you modified, and only `git add` those. For example:
+# WARNING: `git add .` basically adds every file in your directory.
+#          This will probably add files that the grader is not interested
+#          in (e.g., object files). You should run `make clean` to remove
+#          all compilation artifacts and check `git status` to identify
+#          only the source code files that you modified, and only `git add`
+#          those. For example:
 git add user/sleep.c user/find.c Makefile
 
 # Commit.
-git commit -m "Implemented Lab util"
+git commit -m "Lab util done"
 
 # Create a pull request (PR) to the util-orig branch.
 # Running `git push` will print out a URL where you can create a PR. Click the link.
@@ -43,7 +48,9 @@ git commit -m "Implemented Lab util"
 # Change it to this:
 # - source: util
 # - target: util-orig
-# Explain your changes in the body of the PR, and create the PR. This will automatically send me an email, so you don't have to tell me seperately.
+# Explain your changes in the body of the PR, and hit 'create pull request'.
+# Creating a PR will automatically notify me by email. You'll also receive emails
+# when I add review comments on the PR.
 git push
 ```
 
