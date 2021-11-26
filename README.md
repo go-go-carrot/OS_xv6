@@ -43,11 +43,11 @@ git commit -m "Lab util done"
 # Create a pull request (PR) to the util-orig branch.
 # Running `git push` will print out a URL where you can create a PR. Click the link.
 # The initial setting of the PR is:
-# - source: util
-# - target: master
+# - base: master
+# - compare: util
 # Change it to this:
-# - source: util
-# - target: util-orig
+# - base: util-orig
+# - compare: util
 # Explain your changes in the body of the PR, and hit 'create pull request'.
 # Creating a PR will automatically notify me by email. You'll also receive emails
 # when I add review comments on the PR.
