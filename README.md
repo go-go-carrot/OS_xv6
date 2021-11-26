@@ -58,3 +58,5 @@ git push
 
 - `make clean` removes object files, binaries, etc that were newly created by `make qemu`. It won't reset or delete the source code files.
 - Make sure your code compiles before you commit.
+- Utilize `git commit` while you're working on your project. It serves as a snapshot of your code, and you can revert back to a commit when you mess up and make things worse.
+- Utilize `git diff`. It basically shows you all the changes made between two commits. It will answer questions such as "Why doesn't xv6 boot anymore? What did I change?".
