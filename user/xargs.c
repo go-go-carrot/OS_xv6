@@ -15,6 +15,9 @@ Xargs: takes output of a command and pass it as argument of another command.
 #define MATHPATH 128 // max file path name
 
 4. Does Xarg argument order or priority exist?
+5. The diff. bet. argnum's init val?
+6. Why does this work?
+7. What's wrong w/ the 'grep' thing?
 
 */
 
@@ -22,7 +25,7 @@ int main(int argc, char* argv[]){
   char* args[MAXARG]; // args
   //int argnum = argc - 1; // # of args
   int argnum = 0;
-  
+
   char temp; // temp read
   char buf[512]; // buffer
   int readstat = 1; //init flag
