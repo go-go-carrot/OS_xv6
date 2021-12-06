@@ -2,12 +2,16 @@
 
 ## Schedule 
 
-The following table is written in the order of: Lab no., topic, due date 1(KR), due date 2(US) 
+The following table is written in the order of: Lab no., topic, due date 1(KST), due date 2(ET) 
+(Since Most of Michigan is in the Eastern Time Zone, I basically followed ET.)
 
 
-|: Lab No. :|: Topic :|: Due (KR) :|: Due (US) :|
+|: Lab No. :|: Topic :|: Due (KST) :|: Due (ET) :|
 | :---:|:---:|:---:|
-
+|: 1. UNIX Utilities   | : 2021. 12. 06. 00:00   :|: 2021. 12. 05. 22:00  :|
+|: 2. System Calls  | : 2021. 12. 13. 00:00   :|: 2021. 12. 12. 22:00  :|
+|: 3. Page Tables  | : 2021. 12. 20. 00:00   :|: 2021. 12. 19. 22:00  :|
+|: 4. Traps  | : 2021. 12. 27. 00:00   :|: 2021. 12. 26. 22:00  :|
 
 ## Instructions
 
