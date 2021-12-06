@@ -1,5 +1,7 @@
 # xv6 homework repo
 
+## Schedule 
+
 ## Instructions
 
 ### Initial Setup
