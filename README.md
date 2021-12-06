@@ -8,10 +8,16 @@ The following table is written in the order of: Lab no., topic, due date 1(KST),
 
 | Lab No. | Topic | Due (KST) | Due (ET) |
 | --------|--------|--------|--------|
-|: 1. UNIX Utilities   | : 2021. 12. 06. 00:00   :|: 2021. 12. 05. 22:00  :|
-|: 2. System Calls  | : 2021. 12. 13. 00:00   :|: 2021. 12. 12. 22:00  :|
-|: 3. Page Tables  | : 2021. 12. 20. 00:00   :|: 2021. 12. 19. 22:00  :|
-|: 4. Traps  | : 2021. 12. 27. 00:00   :|: 2021. 12. 26. 22:00  :|
+| 1. |  UNIX Utilities   |  2021. 12. 06. 00:00   | 2021. 12. 05. 22:00  |
+| 2. |  System Calls  |  2021. 12. 13. 00:00   | 2021. 12. 12. 22:00  |
+| 3. |  Page Tables  |  2021. 12. 20. 00:00   | 2021. 12. 19. 22:00  |
+| 4. |  Traps  |  2021. 12. 27. 00:00   | 2021. 12. 26. 22:00  |
+| 5. |  Copy-On-Write fork  |  2022. 01. 03. 00:00   | 2022. 01. 02. 22:00  |
+| 6. |  Multithreading  |  2022. 01. 17. 00:00   | 2022. 01. 16. 22:00  |
+| 7. |  Network Driver  |     |   |
+| 8. |  Parallelism/Locking  |     |   |
+| 9. |  File System  |     |   |
+| 10. |  Mmap  |     |   |
 
 ## Instructions
 
