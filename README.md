@@ -2,6 +2,12 @@
 
 ## Schedule 
 
+The following table is written in the order of: Lab no., topic, due date 1(KR), due date 2(US) 
+
+| Lab No. | Topic | Due (KR) | Due (US) |
+| ---|:---:|---:|
+
+
 ## Instructions
 
 ### Initial Setup
