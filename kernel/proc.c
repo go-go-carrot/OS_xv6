@@ -314,6 +314,9 @@ fork(void)
   acquire(&np->lock);
   np->state = RUNNABLE;
   release(&np->lock);
+  
+  // copy tracemask
+  np->tracemask = p->tracemask;
 
   return pid;
 }
