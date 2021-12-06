@@ -6,8 +6,8 @@ The following table is written in the order of: Lab no., topic, due date 1(KST),
 (Since Most of Michigan is in the Eastern Time Zone, I basically followed ET.)
 
 
-|: Lab No. :|: Topic :|: Due (KST) :|: Due (ET) :|
-| :----:|:----:|:----:|
+| Lab No. | Topic | Due (KST) | Due (ET) |
+| --------|--------|--------|--------|
 |: 1. UNIX Utilities   | : 2021. 12. 06. 00:00   :|: 2021. 12. 05. 22:00  :|
 |: 2. System Calls  | : 2021. 12. 13. 00:00   :|: 2021. 12. 12. 22:00  :|
 |: 3. Page Tables  | : 2021. 12. 20. 00:00   :|: 2021. 12. 19. 22:00  :|
