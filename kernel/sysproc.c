@@ -6,7 +6,6 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
-#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -95,39 +94,4 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
-}
-
-// implements the new system call by remembering its argument in a new variable in the proc structure (kernel/proc.h)
-/* argint: fetch integer, argint(int n, int *ip)
-  returns 0, *ip = argraw(n)
-*/
-/* argraw: retrieve one of the saved user regs (kernel/syscall.c)
-   argraw(int n): case 0~(n-1), return trapframe->a(n-1), else panic
-*/
-uint64
-sys_trace(void){
-  int tracevalue;
-  
-  if(argint(0, &tracevalue))
-    return -1; // store argraw(0) to &tracevalue
-  struct proc* p = myproc();
-  p->tracemask = tracevalue;
-
-  return 0;  
-}
-
-uint64
-sys_sysinfo(void){
-  uint64 addr;
-  struct sysinfo info;
-  struct proc* p = myproc();
-  argaddr(0, &addr);
-
-  info.freemem = mfree();
-  info.nproc = nproc();
-
-  if(copyout(p->pagetable, addr, (char*)&info, sizeof(info)) < 0)
-    return -1;
-  
-  return 0;
 }

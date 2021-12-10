@@ -314,9 +314,6 @@ fork(void)
   acquire(&np->lock);
   np->state = RUNNABLE;
   release(&np->lock);
-  
-  // copy tracemask
-  np->tracemask = p->tracemask;
 
   return pid;
 }
@@ -656,16 +653,4 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
-}
-
-// number of processes unused
-uint64
-nproc(void){
-  int count = 0;
-  struct proc* p;
-  for(p = proc; p < &proc[NPROC]; p++){
-    if(p->state != UNUSED)
-      count++;
-  }
-  return count;
 }
