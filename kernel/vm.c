@@ -451,6 +451,8 @@ void vmprint(pagetable_t pgtbl){
     PTE_W: controls whether insts are allowed to write to the page
     PTE_X: controls whether the CPU may interpret the content of the pg & execute them
     PTE_U: if not set, PTE used only in supervisor mode
+
+ 5. top-level pgtbl mappings for entries 0 ~ 255, bottom-level index 0 has entries 0, 1, 2
  */
 
 void vmentryprint(pagetable_t pgtbl, int level){

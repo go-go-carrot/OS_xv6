@@ -96,7 +96,7 @@ sys_sleep(void)
   3. PTE_A: page access bit
 */
 
-/* from vm.c */
+/* from vm.c 
 pte_t* walk(pagetable_t pagetable, uint64 va, int alloc){
   if(va >= MAXVA)
     panic("walk");
@@ -115,7 +115,7 @@ pte_t* walk(pagetable_t pagetable, uint64 va, int alloc){
   }
   return &pagetable[PX(0, va)];
 }
-
+*/
 /* page access using walk in vm.c */
 uint64 pgaccess(void *page, int num, void* store){
   struct proc* p = myproc();
