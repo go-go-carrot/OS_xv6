@@ -432,3 +432,59 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
     return -1;
   }
 }
+/*
+void vmprint(pagetable_t pgtbl){
+  // page table [address of page table]
+  printf("page table %p\n", pgtbl);
+  vmentryprint(pgtbl, 0);
+
+}*/
+
+/* 
+ 1. The root of the tree: 4096B page-table page containing 512 PTEs
+ 2. Each PTE contains the PA for page-table pages in the next level of the tree
+ 3. Paging HW uses the top 9b of the 27b to select a PTE in the root ptable-table page
+    Middle 9b to select a PTE in a page-table page in the next lv
+    Bottom 9b to select the final PTE
+ 4. PTE_V: indicates wheteher the PTE is present
+    PTE_R: controls whether insts are allowed to read to the page
+    PTE_W: controls whether insts are allowed to write to the page
+    PTE_X: controls whether the CPU may interpret the content of the pg & execute them
+    PTE_U: if not set, PTE used only in supervisor mode
+
+ 5. top-level pgtbl mappings for entries 0 ~ 255, bottom-level index 0 has entries 0, 1, 2
+ */
+
+void vmentryprint(pagetable_t pgtbl, int level){
+  //char* s = "..";
+  pte_t pte; // from 0 to 511 (512 PTEs)
+  uint64 next; // PA of the next level of the tree
+ 
+/* 
+  for(int i = 1; i < 3 - level; i++){
+    s = strcat(s, " ..");
+  }
+*/
+  char* s;
+  if(level == 2) s = "..";
+  if(level == 1) s = ".. ..";
+  if(level == 0) s = ".. .. ..";
+
+  for(int i = 0; i < 512; i++){
+    pte = pgtbl[i];
+    
+    if(pte & PTE_V){ // if pte and PTE_V both exist (no page fault)
+      // PTE points to a lower level page table
+      next = PTE2PA(pte);
+      
+      printf("%s%d: pte %p pa %p\n", s, i, pte, next);
+      if((pte & (PTE_R | PTE_W | PTE_X)) == 0)
+        vmentryprint((pagetable_t)next, level - 1);
+    }
+  } 
+}
+
+void vmprint(pagetable_t pgtbl){
+  printf("page table %p\n", pgtbl);
+  vmentryprint(pgtbl, 2);
+}
