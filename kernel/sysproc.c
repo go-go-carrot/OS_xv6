@@ -58,6 +58,8 @@ sys_sleep(void)
   int n;
   uint ticks0;
 
+  backtrace();
+
   if(argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
@@ -94,4 +96,40 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+// Lab4: Traps - Alarm
+// add two system calls (sigreturn, sigalarm)
+// also added to kernel/defs.h
+// see kernel/trap.c for more: when handling clock interrupt in usertrap and the process needs to be alarmed, save current trap frame in etpfm and call the handler
+// handler address is in trapframe->epc, return to user space and execute the function
+
+uint64
+sys_sigalarm(void){
+  struct proc *p = myproc(); 
+  int interval; // should I declare these or can I just use p->interval instead?
+  uint64 handler;
+
+  if(argint(0, &interval) < 0) // &(p->interval)
+    return -1;
+
+  if(argaddr(1, &handler) < 0) // &(p->handler)
+    return -1;
+
+  // see kernel/proc.h
+  // pass the value to current process
+  p->alarm_interval = interval; 
+  p->alarm_handler = handler;
+
+  return 0;
+}
+
+uint64
+sys_sigreturn(void)
+{
+  struct proc *p = myproc();
+  memmove(p->trapframe, &(p->etpfm), sizeof(struct trapframe));
+  p->alarm_passed = 0;
+  
+  return 0;
 }

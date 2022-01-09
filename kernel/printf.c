@@ -121,6 +121,9 @@ panic(char *s)
   printf("panic: ");
   printf(s);
   printf("\n");
+
+  backtrace();
+
   panicked = 1; // freeze uart output from other CPUs
   for(;;)
     ;
@@ -131,4 +134,28 @@ printfinit(void)
 {
   initlock(&pr.lock, "pr");
   pr.locking = 1;
+}
+
+
+// Lab4 Traps: Backtrace function
+void backtrace(void){
+  printf("backtrace:\n");
+  uint64 fp = r_fp(); // current frame pointer
+  
+  /*
+  uint64 up;
+  uint64 down;
+
+  while(up - down == PGSIZE){
+    printf("%p\n", *(uint64*)(fp - 8));
+    fp = *(uint64*)(fp - 16); // fp - 16
+    up = PGROUNDUP((uint64)fp);
+    down = PGROUNDDOWN((uint64)fp);
+  }*/
+  
+  while(PGROUNDDOWN(fp) < PGROUNDUP(fp)){
+    // stack above the point at which the error occurred
+    printf("%p\n", *(uint64*)(fp - 8)); // return address
+    fp = *(uint64*)(fp - 16); // saved frame pointer
+  }
 }
