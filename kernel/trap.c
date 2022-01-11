@@ -6,6 +6,8 @@
 #include "proc.h"
 #include "defs.h"
 
+//extern uint64 cow_fault(pagetable_t, uint64);
+
 struct spinlock tickslock;
 uint ticks;
 
@@ -32,7 +34,7 @@ trapinithart(void)
 //
 // handle an interrupt, exception, or system call from user space.
 // called from trampoline.S
-//
+
 void
 usertrap(void)
 {
@@ -49,7 +51,24 @@ usertrap(void)
   
   // save user program counter.
   p->trapframe->epc = r_sepc();
-  
+
+  // Lab 5: Copy-on-Write
+
+  /* 
+   12: fault from inst
+   13: fault from read
+   15: fault from write
+  */
+
+  // from lazy allocation
+  // page fault
+  if(r_scause() == 15 || r_scause() == 13){
+    if(!cow_fault(p->pagetable, r_stval()))
+      p->killed = 1;
+  }
+  // end of Lab 5 code
+
+
   if(r_scause() == 8){
     // system call
 
