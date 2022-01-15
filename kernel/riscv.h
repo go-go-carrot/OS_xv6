@@ -363,4 +363,10 @@ sfence_vma()
 #define MAXVA (1L << (9 + 9 + 9 + 12 - 1))
 
 typedef uint64 pte_t;
-typedef uint64 *pagetable_t; // 512 PTEs
+typedef uint64 *pagetable_t; // 512 PTEsi
+
+
+
+// Lab 5: Copy-on-Write
+#define PTE_COW (1L << 8)
+

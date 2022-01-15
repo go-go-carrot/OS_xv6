@@ -6,6 +6,10 @@
 #include "defs.h"
 #include "fs.h"
 
+
+uint64 cow_fault(pagetable_t, uint64);
+
+
 /*
  * the kernel's page table.
  */
@@ -303,7 +307,7 @@ uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
   pte_t *pte;
   uint64 pa, i;
   uint flags;
-  char *mem;
+  //char *mem;
 
   for(i = 0; i < sz; i += PGSIZE){
     if((pte = walk(old, i, 0)) == 0)
@@ -311,7 +315,41 @@ uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
     if((*pte & PTE_V) == 0)
       panic("uvmcopy: page not present");
     pa = PTE2PA(*pte);
+    
+    // Lab 5: Copy-on-Write
+    // not allocate new pages (pa), increase refcnt for it
+    // clear PTE_W in the PTES of both child and parent
+    // COW fork marks all the user PTES not writable for both parent and child
+    
+    // if PTE_W valid: COW
+    // else: not copy
+    
+    // previous PTE_W and PTE_COW
+    //uint64 prev_PTE = *pte & (PTE_W | PTE_COW);
     flags = PTE_FLAGS(*pte);
+
+    // clear PTE_W and mark the page as COW page
+    if(flags & PTE_W){
+      //*pte ^= PTE_W; // *pte &= ~PTE_W
+      //*pte |= PTE_COW;
+      flags = (flags | PTE_COW) & (~PTE_W);
+      *pte = PA2PTE(pa) | flags;
+    }
+
+    increase_rc((void*)pa);
+
+    if(mappages(new, i, PGSIZE,(uint64)pa, flags)){
+      goto err;
+      /*
+      // restore flags
+      *pte &= ~(PTE_W | PTE_COW);
+      *pte |= prev_PTE;
+      return -1;
+      */
+    }
+    // end of Lab5 code
+    // original code
+    /*
     if((mem = kalloc()) == 0)
       goto err;
     memmove(mem, (char*)pa, PGSIZE);
@@ -319,6 +357,8 @@ uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
       kfree(mem);
       goto err;
     }
+  }
+  */
   }
   return 0;
 
@@ -350,6 +390,11 @@ copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len)
 
   while(len > 0){
     va0 = PGROUNDDOWN(dstva);
+
+    // Lab 5: Copy-on-Write
+    if(cow_fault(pagetable, va0))
+      return -1;
+
     pa0 = walkaddr(pagetable, va0);
     if(pa0 == 0)
       return -1;
@@ -399,7 +444,6 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
 {
   uint64 n, va0, pa0;
   int got_null = 0;
-
   while(got_null == 0 && max > 0){
     va0 = PGROUNDDOWN(srcva);
     pa0 = walkaddr(pagetable, va0);
@@ -432,3 +476,83 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
     return -1;
   }
 }
+
+// Lab 5: Copy-on-Write
+/*
+ cow_fault function
+
+  1. handles invalid va
+    1) va >= MAXVA
+    2) not in pgtbl
+    3) PTE_U or PTE_V not set
+
+  2. allocates new pa
+  3. copies original content to new pa
+*/
+
+uint64 cow_fault(pagetable_t pgtbl, uint64 va){
+  pte_t *pte;
+  uint64 pa;
+  uint flags;
+
+  // invalid value
+  if(va >= MAXVA)
+    return -1; // -1 or 0?
+
+  va = PGROUNDDOWN(va);
+  pte = walk(pgtbl, va, 0);
+
+  // not in pgtbl
+  if(!pte)
+    return -1;
+
+  pa = PTE2PA(*pte);
+  if(!pa)
+    return -1;
+
+  flags = PTE_FLAGS(*pte);
+  
+  if(flags & PTE_COW){
+    char *mem = kalloc();
+    
+    if(!mem)
+      return -1;
+
+    memmove(mem, (char*)pa, PGSIZE);
+    kfree((void*)pa);
+    flags = (flags & ~PTE_COW) | PTE_W;
+    *pte = PA2PTE((uint64)mem) | flags;
+  }
+  
+  return 0;
+
+/*
+  //user bit OR valid bit not set
+  if(!(*pte & PTE_U) || !(*pte & PTE_V))
+    return 0;
+
+  // not a COW page
+  if(!(*pte & PTE_COW))
+    return 0;
+  
+  // no memory
+  char *mem;
+  
+  if(!(mem = kalloc()))
+    return 0;
+  
+  memmove(mem, (char*)pa, PGSIZE);
+  
+  uint64 flags = PTE_FLAGS(*pte);
+  
+  kfree((void*)pa);
+  flags = (flags & ~PTE_COW) | PTE_W;
+  *pte = PA2PTE((uint64)mem) | flags;
+
+  return (uint64)mem;
+*/
+}
+
+
+
+

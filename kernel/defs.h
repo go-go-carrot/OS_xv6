@@ -64,6 +64,14 @@ void*           kalloc(void);
 void            kfree(void *);
 void            kinit(void);
 
+//uint64          get_refcnt_idx(uint64); // Lab 5: Copy-on-Write
+//char            ref_increment(uint64, char); // Lab 5: Copy-on-Write
+void            rcinit();
+void            increase_rc(void *pa);
+void            decrease_rc(void *pa);
+int             get_rc(void *pa);
+
+
 // log.c
 void            initlog(int, struct superblock*);
 void            log_write(struct buf*);
@@ -170,6 +178,7 @@ uint64          walkaddr(pagetable_t, uint64);
 int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
+uint64          cow_fault(pagetable_t, uint64); // Lab 5: Copy-on-Write 
 
 // plic.c
 void            plicinit(void);
