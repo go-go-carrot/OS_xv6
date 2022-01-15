@@ -6,8 +6,6 @@
 #include "proc.h"
 #include "defs.h"
 
-//extern uint64 cow_fault(pagetable_t, uint64);
-
 struct spinlock tickslock;
 uint ticks;
 
@@ -59,16 +57,7 @@ usertrap(void)
    13: fault from read
    15: fault from write
   */
-
-  // from lazy allocation
-  // page fault
-  if(r_scause() == 15 || r_scause() == 13){
-    if(!cow_fault(p->pagetable, r_stval()))
-      p->killed = 1;
-  }
-  // end of Lab 5 code
-
-
+  
   if(r_scause() == 8){
     // system call
 
@@ -86,11 +75,15 @@ usertrap(void)
     syscall();
   } else if((which_dev = devintr()) != 0){
     // ok
-  } else {
-    printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
-    printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
-    p->killed = 1;
+  } else if(r_scause() == 13 || r_scause() == 15){
+    uint64 va = r_stval();
+    if(va >= MAXVA || (va <= PGROUNDDOWN(p->trapframe->sp) 
+                  && va >= PGROUNDDOWN(p->trapframe->sp) - PGSIZE))
+      p->killed = 1;
+    else if(cow_fault(p->pagetable, va))
+      p->killed = 1;
   }
+  else p->killed = 1;
 
   if(p->killed)
     exit(-1);

@@ -64,8 +64,12 @@ void*           kalloc(void);
 void            kfree(void *);
 void            kinit(void);
 
-uint64          get_refcnt_idx(uint64); // Lab 5: Copy-on-Write
-char            ref_increment(uint64, char); // Lab 5: Copy-on-Write
+//uint64          get_refcnt_idx(uint64); // Lab 5: Copy-on-Write
+//char            ref_increment(uint64, char); // Lab 5: Copy-on-Write
+void            rcinit();
+void            increase_rc(void *pa);
+void            decrease_rc(void *pa);
+int             get_rc(void *pa);
 
 
 // log.c
