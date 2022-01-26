@@ -36,10 +36,14 @@ insert(int key, int value, struct entry **p, struct entry *n)
   *p = e;
 }
 
+pthread_mutex_t locks[NBUCKET];
+
 static 
 void put(int key, int value)
 {
   int i = key % NBUCKET;
+  // Lab 6: Multithreading
+  pthread_mutex_lock(&locks[i]); // acquire lock
 
   // is the key already present?
   struct entry *e = 0;
@@ -54,7 +58,9 @@ void put(int key, int value)
     // the new is new.
     insert(key, value, &table[i], table[i]);
   }
-
+  // Lab 6: Multithreading
+  // use own OS's gcc, not 6.S081 xv6 tools
+  pthread_mutex_unlock(&locks[i]); // release lock
 }
 
 static struct entry*
