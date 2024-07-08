@@ -1,7 +1,5 @@
 # xv6 operating system 
 
-## Schedule 
-
 The following table is written in the order of: Lab no., topic, due date 1(KST), due date 2(ET) 
 I have implemented the following things in order to create a whole xv6 operating system.
 This is an independent task apart from any classes I have participated in.
