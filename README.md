@@ -1,23 +1,24 @@
-# xv6 homework repo
+# xv6 operating system 
 
 ## Schedule 
 
 The following table is written in the order of: Lab no., topic, due date 1(KST), due date 2(ET) 
-(Since Most of Michigan is in the Eastern Time Zone, I basically followed ET.)
+I have implemented the following things in order to create a whole xv6 operating system.
+This is an independent task apart from any classes I have participated in.
 
 
-| Lab No. | Topic | Due (KST) | Due (ET) |
-| --------|--------|--------|--------|
-| 1 |  UNIX Utilities   |  2021. 12. 06.   00:00   | 2021. 12. 05.   22:00  |
-| 2 |  System Calls  |  2021. 12. 13.   00:00   | 2021. 12. 12.   22:00  |
-| 3 |  Page Tables  |  2021. 12. 20.   00:00   | 2021. 12. 19.   22:00  |
-| 4 |  Traps  |  2021. 12. 27.   00:00   | 2021. 12. 26.   22:00  |
-| 5 |  Copy-On-Write fork  |  2022. 01. 03.   00:00   | 2022. 01. 02.   22:00  |
-| 6 |  Multithreading  |  2022. 01. 17.   00:00   | 2022. 01. 16.   22:00  |
-| 7 |  Network Driver  |     |   |
-| 8 |  Parallelism/Locking  |     |   |
-| 9 |  File System  |     |   |
-| 10 |  Mmap  |     |   |
+| Lab No. | Topic | 
+| --------|--------|
+| 1 |  UNIX Utilities   |
+| 2 |  System Calls  |  
+| 3 |  Page Tables  | 
+| 4 |  Traps  | 
+| 5 |  Copy-On-Write fork  | 
+| 6 |  Multithreading  |  
+| 7 |  Network Driver  |    
+| 8 |  Parallelism/Locking  | 
+| 9 |  File System  |    
+| 10 |  Mmap  |    
 
 ## Instructions
 
